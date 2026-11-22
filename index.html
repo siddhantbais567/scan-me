@@ -1,0 +1,1153 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Go On A Date With Me? 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Global reset and soft pastel card styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffe5ec 0%, #f8e8f8 50%, #ffd6e0 100%);
+      padding: 16px;
+      overflow-x: hidden;
+      position: relative;
+      color: #4a1c2a;
+    }
+
+    /* Ambient floating hearts and sparkles */
+    .ambient-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .ambient-particle {
+      position: absolute;
+      bottom: -32px;
+      opacity: 0.55;
+      animation: floatUp linear forwards;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.85) rotate(0deg);
+        opacity: 0.65;
+      }
+      100% {
+        transform: translateY(-108vh) scale(1.2) rotate(24deg);
+        opacity: 0;
+      }
+    }
+
+    /* Main pastel card shell */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid #ffccd9;
+      border-radius: 28px;
+      padding: 32px 24px;
+      box-shadow: 0 20px 48px rgba(194, 24, 91, 0.14);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* 7-step progress indicator */
+    .step-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 22px;
+    }
+
+    .step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #f6c6d4;
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .step-dot.active {
+      width: 24px;
+      background: #d81b60;
+    }
+
+    .step-dot.completed {
+      background: #f06292;
+    }
+
+    /* Step transitions */
+    .step {
+      display: none;
+      animation: fadeSlideIn 0.36s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Hero icons and typography */
+    .hero-icon {
+      font-size: 54px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      display: inline-block;
+      animation: gentleBounce 2.5s infinite ease-in-out;
+    }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: #ad1457;
+      font-size: 26px;
+      line-height: 1.28;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .subtext {
+      color: #7c4559;
+      font-size: 13.8px;
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+
+    /* Primary gradient action button */
+    .btn-primary {
+      background: linear-gradient(135deg, #ff4d79 0%, #d81b60 100%);
+      color: #ffffff;
+      border: none;
+      padding: 13px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(216, 27, 96, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 46px;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 11px 24px rgba(216, 27, 96, 0.34);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.72;
+      cursor: not-allowed;
+    }
+
+    /* Step 1 button arena strictly bounded inside the card */
+    .button-arena {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      min-height: 124px;
+      width: 100%;
+      margin-top: 6px;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+
+    #yesBtn {
+      z-index: 2;
+      transform-origin: center;
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+
+    .btn-no {
+      background: #f8dde6;
+      color: #7c4559;
+      border: 1.5px solid #ecc0cf;
+      padding: 11px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 999px;
+      cursor: pointer;
+      position: relative;
+      z-index: 5;
+      user-select: none;
+      touch-action: none;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+    }
+
+    .btn-no:hover {
+      background: #f1cdd9;
+    }
+
+    /* Form controls */
+    .field-group {
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #9e2a4b;
+      margin-bottom: 6px;
+    }
+
+    input[type="date"],
+    input[type="text"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #f4bccb;
+      border-radius: 14px;
+      background: #fffdfd;
+      color: #4a1c2a;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #d81b60;
+      box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.11);
+    }
+
+    /* Preset selection grids */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 11px;
+      margin-bottom: 15px;
+    }
+
+    .choice-card {
+      background: #fff9fb;
+      border: 1.5px solid #f7c8d6;
+      border-radius: 18px;
+      padding: 14px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      user-select: none;
+    }
+
+    .choice-card:hover {
+      border-color: #ff4d79;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(216, 27, 96, 0.09);
+    }
+
+    .choice-card:active {
+      transform: scale(0.97);
+    }
+
+    .choice-card.selected {
+      background: #ffe3ec;
+      border-color: #d81b60;
+      box-shadow: 0 5px 14px rgba(216, 27, 96, 0.16);
+    }
+
+    .choice-emoji {
+      font-size: 26px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .choice-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b1d35;
+      line-height: 1.3;
+    }
+
+    /* Indian +91 mobile input */
+    .phone-wrapper {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #f4bccb;
+      border-radius: 14px;
+      background: #fffdfd;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .phone-wrapper:focus-within {
+      border-color: #d81b60;
+      box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.11);
+    }
+
+    .phone-code {
+      background: #ffecf1;
+      color: #9e2a4b;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 13px;
+      border-right: 1.5px solid #f4bccb;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .phone-wrapper input[type="tel"] {
+      border: none;
+      border-radius: 0;
+      box-shadow: none !important;
+      font-size: 15px;
+      letter-spacing: 0.6px;
+    }
+
+    /* Validation error messages */
+    .error-text {
+      color: #d81b60;
+      font-size: 12.2px;
+      margin-top: 6px;
+      display: none;
+      font-weight: 500;
+      text-align: left;
+    }
+
+    /* Step 7 summary and celebration */
+    .summary-card {
+      background: #fff9fb;
+      border: 1.5px solid #f7c8d6;
+      border-radius: 18px;
+      padding: 14px 16px;
+      text-align: left;
+      margin-bottom: 14px;
+      font-size: 13.5px;
+      color: #5c2235;
+      line-height: 1.75;
+    }
+
+    .summary-row strong {
+      color: #ad1457;
+      display: inline-block;
+      min-width: 72px;
+    }
+
+    .ps-caption {
+      font-size: 12px;
+      color: #8c4a5e;
+      font-style: italic;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .see-you-msg {
+      margin-top: 16px;
+      font-size: 19px;
+      font-weight: 700;
+      color: #d81b60;
+      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Subtle secondary navigation link */
+    .back-row {
+      margin-top: 12px;
+    }
+
+    .btn-link {
+      background: transparent;
+      border: none;
+      color: #9e2a4b;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .btn-link:hover {
+      color: #d81b60;
+      background: #ffecf1;
+    }
+
+    @media (max-width: 380px) {
+      .card {
+        padding: 26px 18px;
+      }
+      h1 {
+        font-size: 23px;
+      }
+      .options-grid {
+        gap: 9px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Hearts & Sparkles Background -->
+  <div class="ambient-layer" id="ambientLayer" aria-hidden="true"></div>
+
+  <main class="card" id="mainCard" aria-live="polite">
+    <!-- 7-Step Progress Dots -->
+    <div class="step-dots" id="stepDots" aria-hidden="true">
+      <span class="step-dot active"></span>
+      <span class="step-dot"></span>
+      <span class="step-dot"></span>
+      <span class="step-dot"></span>
+      <span class="step-dot"></span>
+      <span class="step-dot"></span>
+      <span class="step-dot"></span>
+    </div>
+
+    <!-- STEP 1: Romantic Question & Bounded Evasive NO Button -->
+    <section class="step active" id="step1">
+      <div class="hero-icon">🧸💖</div>
+      <h1>Will you go on a date with me? 🥺</h1>
+      <p class="subtext">Choose wisely... one button could break my heart, and the other could make yours 💖</p>
+
+      <div class="button-arena" id="buttonArena">
+        <button type="button" class="btn-primary" id="yesBtn" onclick="goToStep(2)">
+          YES! 💕
+        </button>
+        <button
+          type="button"
+          class="btn-no"
+          id="noBtn"
+          onmouseenter="evadeNoButton(event)"
+          onpointerdown="evadeNoButton(event)"
+          ontouchstart="evadeNoButton(event)"
+          onclick="evadeNoButton(event)"
+        >
+          no
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 2: Surprise Yes Confirmation (No Back to Question Link) -->
+    <section class="step" id="step2">
+      <div class="hero-icon">🥰💓</div>
+      <h1>Wait, you actually said yes?! 💖</h1>
+      <p class="subtext">I honestly didn't think you would say yes! Now let’s plan our little date together ✨</p>
+
+      <button type="button" class="btn-primary" onclick="goToStep(3)">
+        Okay okay...
+      </button>
+    </section>
+
+    <!-- STEP 3: Blank-Until-Tapped Date Input & Select Time (12:00 to 08:00) -->
+    <section class="step" id="step3">
+      <div class="hero-icon" style="font-size: 44px;">📅⏰</div>
+      <h1>So... when are you free? 📅</h1>
+      <p class="subtext">Pick a day and a time that works best for you</p>
+
+      <div class="field-group">
+        <label for="dateInput">Select a Date 🗓️</label>
+        <input
+          type="date"
+          id="dateInput"
+          onchange="clearStep3Error()"
+          oninput="clearStep3Error()"
+        />
+      </div>
+
+      <div class="field-group">
+        <label for="timeSlotSelect">Select Time ⏰</label>
+        <select id="timeSlotSelect" aria-label="Select Time" onchange="clearStep3Error()">
+          <option value="">Select Time</option>
+          <option value="12:00">12:00</option>
+          <option value="01:00">01:00</option>
+          <option value="02:00">02:00</option>
+          <option value="03:00">03:00</option>
+          <option value="04:00">04:00</option>
+          <option value="05:00">05:00</option>
+          <option value="06:00">06:00</option>
+          <option value="07:00">07:00</option>
+          <option value="08:00">08:00</option>
+        </select>
+        <div class="error-text" id="step3Error">
+          Please select today or a future date and choose a time.
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" onclick="confirmDateTime()">
+        Done ♥
+      </button>
+    </section>
+
+    <!-- STEP 4: 6 Food Options (Momos, Local Chaat, Pizza, Burger, North Indian Biryani, Desserts) -->
+    <section class="step" id="step4">
+      <h1>What are we feeling? 🍽️</h1>
+      <p class="subtext">Tap a craving to advance right away, or type another craving below</p>
+
+      <div class="options-grid" id="foodGrid">
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetFood(this, 'Momos 🥟')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetFood(this,'Momos 🥟');}"
+        >
+          <span class="choice-emoji">🥟</span>
+          <span class="choice-label">Momos</span>
+        </div>
+
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetFood(this, 'Indian Bite — Street Food 🌮')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetFood(this,'Indian Bite — Street Food 🌮');}"
+        >
+          <span class="choice-emoji">🌮</span>
+          <span class="choice-label">Indian Bite • Street Food</span>
+        </div>
+
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetFood(this, 'Pizza 🍕')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetFood(this,'Pizza 🍕');}"
+        >
+          <span class="choice-emoji">🍕</span>
+          <span class="choice-label">Pizza</span>
+        </div>
+
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetFood(this, 'Burger 🍔')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetFood(this,'Burger 🍔');}"
+        >
+          <span class="choice-emoji">🍔</span>
+          <span class="choice-label">Burger</span>
+        </div>
+
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetFood(this, 'North Indian Biryani 🍛')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetFood(this,'North Indian Biryani 🍛');}"
+        >
+          <span class="choice-emoji">🍛</span>
+          <span class="choice-label">North Indian Biryani</span>
+        </div>
+
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetFood(this, 'Desserts & Ice Cream 🍨')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetFood(this,'Desserts & Ice Cream 🍨');}"
+        >
+          <span class="choice-emoji">🍨</span>
+          <span class="choice-label">Desserts & Ice Cream</span>
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-bottom: 0;">
+        <input
+          type="text"
+          id="customFoodInput"
+          placeholder="or type another craving..."
+          oninput="handleCustomFoodInput()"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();advanceFromCustomFood();}"
+        />
+        <div class="error-text" id="step4Error">
+          Please tap a food option or type another craving first.
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 5: Location Choice (Spot/Vibe Cards + Custom Spot + Required Area/Place) -->
+    <section class="step" id="step5">
+      <h1>Where should we go? 📍</h1>
+      <p class="subtext">Pick a spot and fill in the place or area you want to visit</p>
+
+      <div class="options-grid" id="spotGrid">
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetSpot(this, 'Cozy Cafe ☕')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetSpot(this,'Cozy Cafe ☕');}"
+        >
+          <span class="choice-emoji">☕</span>
+          <span class="choice-label">Cozy Cafe</span>
+        </div>
+
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetSpot(this, 'Sunset Park 🌳')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetSpot(this,'Sunset Park 🌳');}"
+        >
+          <span class="choice-emoji">🌳</span>
+          <span class="choice-label">Sunset Park</span>
+        </div>
+
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetSpot(this, 'Movie Date 🎬')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetSpot(this,'Movie Date 🎬');}"
+        >
+          <span class="choice-emoji">🎬</span>
+          <span class="choice-label">Movie Date</span>
+        </div>
+
+        <div
+          class="choice-card"
+          role="button"
+          tabindex="0"
+          onclick="selectPresetSpot(this, 'Mall Hangout 🛍️')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPresetSpot(this,'Mall Hangout 🛍️');}"
+        >
+          <span class="choice-emoji">🛍️</span>
+          <span class="choice-label">Mall Hangout</span>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <input
+          type="text"
+          id="customSpotInput"
+          placeholder="or type a specific cafe, mall, or park name..."
+          oninput="clearStep5Error()"
+        />
+      </div>
+
+      <div class="field-group">
+        <label for="areaInput">Where would you like to go? ✨</label>
+        <input
+          type="text"
+          id="areaInput"
+          placeholder="any place or area you want to visit ✨"
+          oninput="clearStep5Error()"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();confirmLocationStep();}"
+        />
+        <div class="error-text" id="step5Error">
+          Please choose or enter a spot AND enter the place or area you want to visit.
+        </div>
+      </div>
+
+      <button type="button" id="nextFromStep5Btn" class="btn-primary" onclick="confirmLocationStep()">
+        Next →
+      </button>
+
+      <div class="back-row">
+        <button type="button" class="btn-link" onclick="goToStep(4)">
+          ← Back to Food
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 6: Indian +91 10-Digit Mobile Number Input -->
+    <section class="step" id="step6">
+      <div class="hero-icon" style="font-size: 44px;">📱💌</div>
+      <h1>Where should I send the details? 📱</h1>
+      <p class="subtext">Enter your 10-digit Indian mobile number so we can lock in the plan</p>
+
+      <div class="field-group">
+        <label for="phoneInput">Indian Mobile Number</label>
+        <div class="phone-wrapper">
+          <span class="phone-code">🇮🇳 +91</span>
+          <input
+            type="tel"
+            id="phoneInput"
+            maxlength="10"
+            inputmode="numeric"
+            placeholder="9876543210"
+            oninput="handlePhoneInput(this)"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();submitContactStep();}"
+          />
+        </div>
+        <div class="error-text" id="step6Error">
+          Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" id="okayContactBtn" onclick="submitContactStep()">
+        Okay ♥
+      </button>
+    </section>
+
+    <!-- STEP 7: Final Confirmation & Summary -->
+    <section class="step" id="step7">
+      <div class="hero-icon" style="font-size: 46px;">🥂💖</div>
+      <h1>Glad you said yes! 💖</h1>
+
+      <div class="summary-card">
+        <div class="summary-row"><strong>Date:</strong> <span id="sumDate">-</span></div>
+        <div class="summary-row"><strong>Time:</strong> <span id="sumTime">-</span></div>
+        <div class="summary-row"><strong>Food:</strong> <span id="sumFood">-</span></div>
+        <div class="summary-row"><strong>Spot:</strong> <span id="sumSpot">-</span></div>
+        <div class="summary-row"><strong>Area:</strong> <span id="sumArea">-</span></div>
+        <div class="summary-row"><strong>Phone:</strong> <span id="sumPhone">-</span></div>
+      </div>
+
+      <p class="ps-caption">
+        P.S. normal people text. I made a whole website instead, so no backing out now. 😉
+      </p>
+
+      <button type="button" class="btn-primary" id="finalAcceptBtn" onclick="celebrateAcceptance()">
+        ok i accept! 🥰
+      </button>
+
+      <div class="see-you-msg" id="seeYouMsg" style="display: none;">
+        See you soon! 💖
+      </div>
+
+      <div class="back-row">
+        <button type="button" class="btn-link" onclick="goToStep(6)">
+          ← Edit Contact
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Configuration constants
+    const FORMSUBMIT_EMAIL = "Baissiddhu@gmail.com";
+    const MAX_YES_SCALE = 1.3;
+
+    // 7-step application state
+    let yesScale = 1;
+    let selectedDate = "";
+    let selectedTimeSlot = "";
+    let selectedFood = "";
+    let selectedPresetSpot = "";
+    let selectedArea = "";
+    let formattedPhone = "";
+    let foodAdvanceTimer = null;
+
+    // Floating hearts and celebratory particle burst
+    function spawnParticle(isBurst = false) {
+      try {
+        const layer = document.getElementById("ambientLayer");
+        if (!layer) return;
+
+        const el = document.createElement("span");
+        const symbols = isBurst
+          ? ["💖", "💕", "💗", "🎉", "✨", "🥰", "💘"]
+          : ["💖", "💕", "✨", "🌸"];
+        el.className = "ambient-particle";
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = `${Math.floor(Math.random() * 94) + 2}%`;
+        el.style.fontSize = `${Math.floor(Math.random() * 10) + (isBurst ? 18 : 14)}px`;
+        const duration = isBurst ? (1.6 + Math.random() * 1.1) : (4.5 + Math.random() * 3.0);
+        el.style.animationDuration = `${duration}s`;
+
+        layer.appendChild(el);
+        setTimeout(() => {
+          if (el.parentNode) el.parentNode.removeChild(el);
+        }, duration * 1000);
+      } catch (err) {
+        // Ignore non-critical particle errors
+      }
+    }
+
+    // Date helpers: block past dates and keep the date box blank until tapped
+    function getTodayISO() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, "0");
+      const d = String(now.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function initDateInput() {
+      const dateInput = document.getElementById("dateInput");
+      const timeSelect = document.getElementById("timeSlotSelect");
+      if (dateInput) {
+        dateInput.min = getTodayISO();
+        if (!selectedDate) dateInput.value = "";
+      }
+      if (timeSelect && !selectedTimeSlot) {
+        timeSelect.value = "";
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initDateInput();
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => spawnParticle(false), i * 250);
+      }
+    });
+
+    // Step indicator and step navigation
+    function updateDots(stepNumber) {
+      const dots = document.querySelectorAll("#stepDots .step-dot");
+      dots.forEach((dot, index) => {
+        const current = index + 1;
+        dot.classList.remove("active", "completed");
+        if (current === stepNumber) {
+          dot.classList.add("active");
+        } else if (current < stepNumber) {
+          dot.classList.add("completed");
+        }
+      });
+    }
+
+    function goToStep(stepNumber) {
+      if (foodAdvanceTimer) {
+        clearTimeout(foodAdvanceTimer);
+        foodAdvanceTimer = null;
+      }
+
+      updateDots(stepNumber);
+
+      document.querySelectorAll(".step").forEach((section) => {
+        section.classList.remove("active");
+      });
+
+      const target = document.getElementById(`step${stepNumber}`);
+      if (target) {
+        target.classList.add("active");
+      }
+
+      if (stepNumber === 2) {
+        for (let i = 0; i < 10; i++) {
+          setTimeout(() => spawnParticle(true), i * 100);
+        }
+      } else if (stepNumber === 3) {
+        initDateInput();
+      } else if (stepNumber === 7) {
+        populateFinalSummary();
+      }
+    }
+
+    // Step 1: Strictly evasive NO button inside the card arena and YES scale capped at 1.3x
+    function evadeNoButton(event) {
+      if (event && event.cancelable) {
+        event.preventDefault();
+      }
+      if (event && typeof event.stopPropagation === "function") {
+        event.stopPropagation();
+      }
+
+      const noBtn = document.getElementById("noBtn");
+      const yesBtn = document.getElementById("yesBtn");
+      const arena = document.getElementById("buttonArena");
+      if (!noBtn || !arena) return;
+
+      const arenaRect = arena.getBoundingClientRect();
+      const btnW = noBtn.offsetWidth || 68;
+      const btnH = noBtn.offsetHeight || 40;
+
+      const maxX = Math.max(24, Math.floor((arenaRect.width - btnW) / 2) - 8);
+      const maxY = Math.max(18, Math.floor((arenaRect.height - btnH) / 2) - 6);
+
+      let nextX = Math.floor(Math.random() * (maxX * 2 + 1)) - maxX;
+      if (Math.abs(nextX) < 22) {
+        nextX = nextX >= 0 ? Math.min(maxX, 34) : Math.max(-maxX, -34);
+      }
+      const nextY = Math.floor(Math.random() * (maxY * 2 + 1)) - maxY;
+
+      noBtn.style.transform = `translate3d(${nextX}px, ${nextY}px, 0)`;
+
+      if (yesBtn) {
+        yesScale = Math.min(MAX_YES_SCALE, Number((yesScale + 0.06).toFixed(2)));
+        yesBtn.style.transform = `scale(${yesScale})`;
+      }
+    }
+
+    // Step 3: Date & time slot validation
+    function clearStep3Error() {
+      const err = document.getElementById("step3Error");
+      if (err) err.style.display = "none";
+    }
+
+    function confirmDateTime() {
+      const dateInput = document.getElementById("dateInput");
+      const timeSelect = document.getElementById("timeSlotSelect");
+      const err = document.getElementById("step3Error");
+
+      const today = getTodayISO();
+      const isoDate = dateInput ? dateInput.value : "";
+      const tVal = timeSelect ? timeSelect.value : "";
+
+      if (!isoDate || !tVal) {
+        if (err) {
+          err.textContent = "Please select today or a future date and choose a time.";
+          err.style.display = "block";
+        }
+        return;
+      }
+
+      if (isoDate < today) {
+        if (err) {
+          err.textContent = "Past dates are not allowed. Please select today or a future date.";
+          err.style.display = "block";
+        }
+        return;
+      }
+
+      clearStep3Error();
+      selectedDate = isoDate;
+      selectedTimeSlot = tVal;
+      goToStep(4);
+    }
+
+    // Step 4: 6 preset food cards + custom craving input (without conditional Done button reveal)
+    function selectPresetFood(cardEl, foodLabel) {
+      selectedFood = foodLabel;
+
+      const customInput = document.getElementById("customFoodInput");
+      if (customInput) customInput.value = "";
+
+      const err = document.getElementById("step4Error");
+      if (err) err.style.display = "none";
+
+      document.querySelectorAll("#foodGrid .choice-card").forEach((card) => {
+        card.classList.remove("selected");
+      });
+      if (cardEl) cardEl.classList.add("selected");
+
+      if (foodAdvanceTimer) clearTimeout(foodAdvanceTimer);
+      foodAdvanceTimer = setTimeout(() => {
+        goToStep(5);
+      }, 150);
+    }
+
+    function handleCustomFoodInput() {
+      const customInput = document.getElementById("customFoodInput");
+      const err = document.getElementById("step4Error");
+      if (err) err.style.display = "none";
+      if (!customInput) return;
+
+      const typed = customInput.value.trim();
+      if (typed.length > 0) {
+        document.querySelectorAll("#foodGrid .choice-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+        selectedFood = typed;
+      } else {
+        selectedFood = "";
+      }
+    }
+
+    function advanceFromCustomFood() {
+      const customInput = document.getElementById("customFoodInput");
+      const err = document.getElementById("step4Error");
+      const typed = customInput ? customInput.value.trim() : "";
+
+      if (!typed) {
+        if (err) err.style.display = "block";
+        return;
+      }
+
+      if (err) err.style.display = "none";
+      selectedFood = typed;
+      goToStep(5);
+    }
+
+    // Step 5: Spot cards + custom spot input + required place/area validation
+    function selectPresetSpot(cardEl, spotLabel) {
+      selectedPresetSpot = String(spotLabel || "").trim();
+      const spotCards = document.querySelectorAll("#spotGrid .choice-card");
+      spotCards.forEach((card) => {
+        card.classList.remove("selected");
+      });
+      if (cardEl && cardEl.classList) {
+        cardEl.classList.add("selected");
+      }
+      clearStep5Error();
+    }
+
+    function clearStep5Error() {
+      const err = document.getElementById("step5Error");
+      if (err) {
+        err.style.display = "none";
+        err.textContent = "Please choose or enter a spot AND enter the place or area you want to visit.";
+      }
+    }
+
+    function getCombinedSpot() {
+      const customSpotInput = document.getElementById("customSpotInput");
+      const customSpot = customSpotInput ? customSpotInput.value.trim() : "";
+      if (selectedPresetSpot && customSpot) {
+        return `${selectedPresetSpot} — ${customSpot}`;
+      }
+      return customSpot || selectedPresetSpot || "";
+    }
+
+    function confirmLocationStep() {
+      const areaInput = document.getElementById("areaInput");
+      const customSpotInput = document.getElementById("customSpotInput");
+      const err = document.getElementById("step5Error");
+
+      const customSpot = customSpotInput ? customSpotInput.value.trim() : "";
+      if (!selectedPresetSpot && customSpot) {
+        selectedPresetSpot = "";
+      }
+
+      const spotText = getCombinedSpot();
+      const areaText = areaInput ? areaInput.value.trim() : "";
+
+      if (!spotText && !areaText) {
+        if (err) {
+          err.textContent = "Please choose or enter a spot AND enter the place or area you want to visit.";
+          err.style.display = "block";
+        }
+        return;
+      }
+
+      if (!spotText) {
+        if (err) {
+          err.textContent = "Please select a spot card or type a cafe, mall, or park name.";
+          err.style.display = "block";
+        }
+        return;
+      }
+
+      if (!areaText) {
+        if (err) {
+          err.textContent = "Please enter the place or area you want to visit.";
+          err.style.display = "block";
+        }
+        if (areaInput) areaInput.focus();
+        return;
+      }
+
+      clearStep5Error();
+      selectedArea = areaText;
+      goToStep(6);
+    }
+
+    // Step 6: Indian +91 10-digit mobile validation & non-blocking FormSubmit submission
+    function handlePhoneInput(inputEl) {
+      inputEl.value = inputEl.value.replace(/\D/g, "").slice(0, 10);
+      const err = document.getElementById("step6Error");
+      if (err) err.style.display = "none";
+    }
+
+    function submitContactStep() {
+      const phoneInput = document.getElementById("phoneInput");
+      const err = document.getElementById("step6Error");
+      const digits = phoneInput ? phoneInput.value.replace(/\D/g, "") : "";
+
+      if (!/^[6-9]\d{9}$/.test(digits)) {
+        if (err) err.style.display = "block";
+        return;
+      }
+
+      if (err) err.style.display = "none";
+      formattedPhone = `+91 ${digits}`;
+
+      try {
+        const payload = new URLSearchParams();
+        payload.append("_subject", "New Date Invitation Accepted! 💖");
+        payload.append("_captcha", "false");
+        payload.append("Date", selectedDate);
+        payload.append("Time", selectedTimeSlot);
+        payload.append("Food", selectedFood);
+        payload.append("Spot", getCombinedSpot());
+        payload.append("Area", selectedArea);
+        payload.append("Phone", formattedPhone);
+
+        fetch(`https://formsubmit.co/ajax/${encodeURIComponent(FORMSUBMIT_EMAIL)}`, {
+          method: "POST",
+          mode: "no-cors",
+          keepalive: true,
+          body: payload
+        }).catch(() => {});
+      } catch (err) {
+        // Non-blocking submission fallback
+      }
+
+      goToStep(7);
+    }
+
+    // Step 7: Final plan summary and acceptance celebration
+    function formatReadableDate(isoStr) {
+      if (!isoStr) return "-";
+      const parts = isoStr.split("-");
+      if (parts.length !== 3) return isoStr;
+      const dt = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      return dt.toLocaleDateString("en-IN", {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
+    function populateFinalSummary() {
+      document.getElementById("sumDate").textContent = formatReadableDate(selectedDate);
+      document.getElementById("sumTime").textContent = selectedTimeSlot || "-";
+      document.getElementById("sumFood").textContent = selectedFood || "-";
+      document.getElementById("sumSpot").textContent = getCombinedSpot() || "-";
+      document.getElementById("sumArea").textContent = selectedArea || "-";
+      document.getElementById("sumPhone").textContent = formattedPhone || "-";
+    }
+
+    function celebrateAcceptance() {
+      const btn = document.getElementById("finalAcceptBtn");
+      const msg = document.getElementById("seeYouMsg");
+
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Accepted! 💖";
+      }
+      if (msg) {
+        msg.style.display = "block";
+      }
+
+      for (let i = 0; i < 24; i++) {
+        setTimeout(() => spawnParticle(true), i * 75);
+      }
+    }
+  </script>
+</body>
+</html>
+```
